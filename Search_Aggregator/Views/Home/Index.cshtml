@@ -4,11 +4,11 @@
 
 <html>
     <body>
-        <h2>Search Results For "Hi":</h2>
-        @{
-            foreach (var result in ViewBag.SearchResults) {
-                <a href="@result.Link">@result.Title</a><br/>
-            }
-         }
+        <h3>Please type a query to search:</h3><br />
+        <form action="/Home/Results">
+            <input type="text" name="query" /><br />
+            <input type="hidden" name="page" value="1" />
+            <input type="submit" value="Submit" /><br />
+        </form>
     </body>
 </html>

@@ -1,0 +1,28 @@
+﻿
+@{
+    ViewBag.Title = "Results";
+}
+
+<html>
+@Scripts.Render("~/bundles/jquery")
+@Scripts.Render("~/bundles/search")
+<body>
+    <a href="/Home/Index"><button>Return to Home</button></a>
+    <h2>Search Results For "@ViewBag.Query":</h2>
+    @{
+        if (ViewBag.Error == false)
+        {
+            foreach (var result in ViewBag.SearchResults)
+            {
+                <a href="@result.Link">@result.Title</a><br />
+            }
+        }
+        else
+        {
+            <p>Cannot be blank</p>
+        }
+    }
+    <button class="prevBtn" type="button">Previous Page</button>
+    <button class="nextBtn" type="button">Next Page</button>
+</body>
+</html>

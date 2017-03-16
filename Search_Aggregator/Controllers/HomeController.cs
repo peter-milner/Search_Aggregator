@@ -12,15 +12,26 @@ namespace Search_Aggregator.Controllers
     public class HomeController : Controller
     {
         private SearchService searchService = new SearchService();
+        private const int ITEMS_PER_PAGE = 5;
         public ActionResult Index()
         {
+            return View();
+        }
+        public ActionResult Results()
+        {
+            ViewBag.Error = false;
             try
             {
-                ViewBag.SearchResults = searchService.getGoogleResults("hi", 5, 1);
+                string query = Request.QueryString["query"];
+                int page = Convert.ToInt32(Request.QueryString["page"]);
+                if (page < 1 || query == "") throw new Exception();
+                ViewBag.SearchResults = searchService.getGoogleResults(query, ITEMS_PER_PAGE, page);
+                ViewBag.Query = query;
+                
             }
-            catch
+            catch (Exception e)
             {
-                ViewBag.SearchResults = "Error";
+                ViewBag.Error = true;
             }
             return View();
         }
