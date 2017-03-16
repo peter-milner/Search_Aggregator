@@ -1,0 +1,14 @@
+﻿@{
+    ViewBag.Title = "Home Page";
+}
+
+<html>
+    <body>
+        <h2>Search Results For "Hi":</h2>
+        @{
+            foreach (var result in ViewBag.SearchResults) {
+                <a href="@result.Link">@result.Title</a><br/>
+            }
+         }
+    </body>
+</html>
