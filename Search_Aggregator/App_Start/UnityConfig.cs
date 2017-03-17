@@ -17,7 +17,7 @@ namespace Search_Aggregator
 
             // e.g. container.RegisterType<ITestService, TestService>();
 
-           // container.RegisterType<ISearchService,GoogleSearchService>("A");
+            container.RegisterType<ISearchService, GoogleSearchService>("A");
             container.RegisterType<ISearchService, BingSearchService>("B");
             container.RegisterType<IEnumerable<ISearchService>,ISearchService[]>();
             DependencyResolver.SetResolver(new UnityDependencyResolver(container));
