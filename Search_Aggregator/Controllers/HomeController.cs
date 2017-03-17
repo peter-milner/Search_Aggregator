@@ -36,8 +36,10 @@ namespace Search_Aggregator.Controllers
                     string query = Request.QueryString["query"];
                     int page = Convert.ToInt32(Request.QueryString["page"]);
                     if (page < 1 || query == "") throw new Exception("Invalid query.");
-
-                    ViewBag.SearchResults = service.getResults(query, ITEMS_PER_PAGE, page);
+                    if (ViewBag.SearchResults != null)
+                        ViewBag.SearchResults.AddRange(service.getResults(query, ITEMS_PER_PAGE, page));
+                    else
+                        ViewBag.SearchResults = service.getResults(query, ITEMS_PER_PAGE, page);
                     ViewBag.Query = query;
 
                 }
