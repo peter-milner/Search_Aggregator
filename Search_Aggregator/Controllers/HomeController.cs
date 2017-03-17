@@ -11,15 +11,15 @@ namespace Search_Aggregator.Controllers
 {
     public class HomeController : Controller
     {
-        private readonly ISearchService searchService;
+        private readonly IEnumerable <ISearchService> searchServices;
         private const int ITEMS_PER_PAGE = 5;
 
         public HomeController()
         {
         }
-        public HomeController(ISearchService service)
+        public HomeController(IEnumerable<ISearchService> services)
         {
-            searchService = service;
+            searchServices = services;
         }
 
         public ActionResult Index()
@@ -29,20 +29,25 @@ namespace Search_Aggregator.Controllers
         public ActionResult Results()
         {
             ViewBag.Error = false;
-            try
+            foreach (ISearchService service in searchServices)
             {
-                string query = Request.QueryString["query"];
-                int page = Convert.ToInt32(Request.QueryString["page"]);
-                if (page < 1 || query == "") throw new Exception();
+                try
+                {
+                    string query = Request.QueryString["query"];
+                    int page = Convert.ToInt32(Request.QueryString["page"]);
+                    if (page < 1 || query == "") throw new Exception("Invalid query.");
 
-                ViewBag.SearchResults = searchService.getResults(query, ITEMS_PER_PAGE, page);
-                ViewBag.Query = query;
-                
+                    ViewBag.SearchResults = service.getResults(query, ITEMS_PER_PAGE, page);
+                    ViewBag.Query = query;
+
+                }
+                catch (Exception e)
+                {
+                    ViewBag.Error = true;
+                    ViewBag.ErrorMessage = e.Message;
+                }
             }
-            catch (Exception e)
-            {
-                ViewBag.Error = true;
-            }
+            
             return View();
         }
 

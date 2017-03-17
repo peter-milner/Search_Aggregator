@@ -2,6 +2,7 @@ using System.Web.Mvc;
 using Microsoft.Practices.Unity;
 using Unity.Mvc5;
 using Search_Aggregator.Services;
+using System.Collections.Generic;
 
 namespace Search_Aggregator
 {
@@ -16,7 +17,9 @@ namespace Search_Aggregator
 
             // e.g. container.RegisterType<ITestService, TestService>();
 
-            container.RegisterType<ISearchService, GoogleSearchService>();
+           // container.RegisterType<ISearchService,GoogleSearchService>("A");
+            container.RegisterType<ISearchService, BingSearchService>("B");
+            container.RegisterType<IEnumerable<ISearchService>,ISearchService[]>();
             DependencyResolver.SetResolver(new UnityDependencyResolver(container));
         }
     }

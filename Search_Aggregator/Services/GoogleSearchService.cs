@@ -18,8 +18,9 @@ namespace Search_Aggregator.Services
             CustomsearchService service = new CustomsearchService(new BaseClientService.Initializer { ApiKey = apiKey });
             ListRequest request = service.Cse.List(query);
             request.Cx = searchEngineId;
+            request.Num = itemsPerPage;
             request.Start = itemsPerPage * page;
-
+            
             List<SearchResult> results = new List<SearchResult>();
             foreach (var item in request.Execute().Items)
                 results.Add(
