@@ -11,8 +11,17 @@ namespace Search_Aggregator.Controllers
 {
     public class HomeController : Controller
     {
-        private SearchService searchService = new SearchService();
+        private readonly ISearchService searchService;
         private const int ITEMS_PER_PAGE = 5;
+
+        public HomeController()
+        {
+        }
+        public HomeController(ISearchService service)
+        {
+            searchService = service;
+        }
+
         public ActionResult Index()
         {
             return View();
@@ -25,7 +34,8 @@ namespace Search_Aggregator.Controllers
                 string query = Request.QueryString["query"];
                 int page = Convert.ToInt32(Request.QueryString["page"]);
                 if (page < 1 || query == "") throw new Exception();
-                ViewBag.SearchResults = searchService.getGoogleResults(query, ITEMS_PER_PAGE, page);
+
+                ViewBag.SearchResults = searchService.getResults(query, ITEMS_PER_PAGE, page);
                 ViewBag.Query = query;
                 
             }
